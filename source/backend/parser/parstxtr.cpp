@@ -1314,6 +1314,11 @@ void Parser::Parse_Pattern (TPATTERN *New, int TPat_Type)
 			EXIT
 		END_CASE
 
+		CASE (POLAR_TOKEN)
+			New->Type = POLAR_PATTERN;
+			EXIT
+		END_CASE
+
 		CASE (RIPPLES_TOKEN)
 			New->Type = RIPPLES_PATTERN;
 			EXIT
@@ -3247,6 +3252,13 @@ NOTE: Do not add new keywords to this section.  Use 1.0 syntax only.
 					Tnormal->Amount = Parse_Float ();
 				END_CASE
 
+				CASE (POLAR_TOKEN)
+					Warn_State(Token.Token_Id, TNORMAL_TOKEN);
+					ADD_TNORMAL
+					Tnormal->Type = POLAR_PATTERN;
+					Tnormal->Amount = Parse_Float ();
+				END_CASE
+
 				CASE (BUMP_MAP_TOKEN)
 					Warn_State(Token.Token_Id, TNORMAL_TOKEN);
 					ADD_TNORMAL
@@ -5077,6 +5089,11 @@ void Parser::Parse_PatternFunction(TPATTERN *New)
 
 		CASE (WRINKLES_TOKEN)
 			New->Type = WRINKLES_PATTERN;
+			EXIT
+		END_CASE
+
+		CASE (POLAR_TOKEN)
+			New->Type = POLAR_PATTERN;
 			EXIT
 		END_CASE
 

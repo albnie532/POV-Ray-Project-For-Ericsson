@@ -298,6 +298,7 @@ const RESERVED_WORD Reserved_Words[LAST_TOKEN] = {
 	{ISOSURFACE_TOKEN, "isosurface"},
 	{JITTER_TOKEN, "jitter"},
 	{JULIA_TOKEN, "julia"},
+	{POLAR_TOKEN, "polar"},
 	{JULIA_FRACTAL_TOKEN, "julia_fractal"},
 	{JPEG_TOKEN, "jpeg"},
 	{LAMBDA_TOKEN, "lambda"},

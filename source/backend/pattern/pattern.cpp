@@ -130,6 +130,7 @@ static DBL spiral1_pattern (const VECTOR EPoint, const TPATTERN *TPat, int noise
 static DBL spiral2_pattern (const VECTOR EPoint, const TPATTERN *TPat, int noise_generator);
 static DBL spherical_pattern (const VECTOR EPoint);
 static DBL tiling_pattern (const VECTOR EPoint, const TPATTERN *TPat);
+static DBL polar_pattern (const VECTOR EPoint);
 static DBL waves_pattern (const VECTOR EPoint, const TPATTERN *TPat, const TraceThreadData *Thread);
 static DBL wood_pattern (const VECTOR EPoint, const TPATTERN *TPat);
 static DBL wrinkles_pattern (const VECTOR EPoint, int noise_generator);
@@ -272,6 +273,7 @@ DBL Evaluate_TPat (const TPATTERN *TPat, const VECTOR EPoint, const Intersection
 		case AOI_PATTERN:         value = aoi_pattern        (Isection, ray);                           break;
 		case PAVEMENT_PATTERN:    value = pavement_pattern   (EPoint, TPat);                            break;
 		case TILING_PATTERN:      value = tiling_pattern     (EPoint, TPat);                            break;
+		case POLAR_PATTERN:       value = polar_pattern      (EPoint);                                  break;
 		case PIGMENT_PATTERN:     value = pigment_pattern    (EPoint, TPat, Isection, ray, Thread);     break;
 		case OBJECT_PATTERN:      value = object_pattern     (EPoint, TPat, Thread);                    break;
 
@@ -4913,6 +4915,52 @@ static DBL tiling_pattern (const VECTOR EPoint, const TPATTERN *TPat)
 		default:
 			return tiling_square(EPoint);
 	}
+}
+
+/*****************************************************************************
+*
+* FUNCTION
+*
+*   polar_pattern
+*
+* INPUT
+*
+*   EPoint -- The point in 3d space at which the pattern is evaluated.
+*
+* OUTPUT
+*
+* RETURNS
+*
+*   DBL value in the range 0.0 to 1.0
+*
+* AUTHOR
+*
+*   Albert Niewiadomski
+*
+* DESCRIPTION
+*
+*   Polar pattern which takes 1 for north pole, 0.5 for equator and 0 for south pole.
+*
+* CHANGES
+*
+*
+******************************************************************************/
+
+static DBL polar_pattern (const VECTOR EPoint)
+{
+	if (EPoint[Y] == 0)
+	{
+		return 0.5;
+	}
+
+	double xx = EPoint[X] * EPoint[X], zz = EPoint[Z] * EPoint[Z], angle = acos((xx + zz) / (sqrt(xx + zz + EPoint[Y] * EPoint[Y]) * sqrt(xx + zz))) * 57.2958279;
+
+	if (EPoint[Y] > 0)
+	{
+		return 0.00555555556 * angle + 0.5;
+	}
+
+	return -0.00555555556 * angle + 0.5;
 }
 
 /*****************************************************************************
