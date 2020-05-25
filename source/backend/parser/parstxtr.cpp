@@ -3113,6 +3113,11 @@ NOTE: Do not add new keywords to this section.  Use 1.0 syntax only.
 					Pigment->Type = SPOTTED_PATTERN;
 				END_CASE
 
+				CASE (POLAR_TOKEN)
+					Warn_State(Token.Token_Id, PIGMENT_TOKEN);
+					Pigment->Type = POLAR_PATTERN;
+				END_CASE
+
 				CASE (WOOD_TOKEN)
 					Warn_State(Token.Token_Id, PIGMENT_TOKEN);
 					Pigment->Type = WOOD_PATTERN;
@@ -3249,13 +3254,6 @@ NOTE: Do not add new keywords to this section.  Use 1.0 syntax only.
 					Warn_State(Token.Token_Id, TNORMAL_TOKEN);
 					ADD_TNORMAL
 					Tnormal->Type = WRINKLES_PATTERN;
-					Tnormal->Amount = Parse_Float ();
-				END_CASE
-
-				CASE (POLAR_TOKEN)
-					Warn_State(Token.Token_Id, TNORMAL_TOKEN);
-					ADD_TNORMAL
-					Tnormal->Type = POLAR_PATTERN;
 					Tnormal->Amount = Parse_Float ();
 				END_CASE
 
